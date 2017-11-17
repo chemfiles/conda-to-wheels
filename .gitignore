@@ -1,0 +1,4 @@
+chemfiles/
+build/
+dist/
+chemfiles.egg-info/
