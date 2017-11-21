@@ -5,9 +5,13 @@ import os
 import yaml
 import tarfile
 import pprint
-import wget
 import shutil
 import subprocess
+
+if sys.version_info >= (3, 0):
+    import urllib.request as request
+else:
+    import urllib as request
 
 # Version information
 VERSION = "0.7.4"
@@ -42,7 +46,7 @@ SETUP_PY_END = """\n\n
 setup(
     name='chemfiles',
     author='Guillaume Fraux',
-    author_email='<guillaume@fraux.fr>',
+    author_email='guillaume@fraux.fr',
     include_package_data=True,
     cmdclass={'bdist_wheel': WheelBuild},
     packages=['chemfiles'],
@@ -60,7 +64,11 @@ CHEMFILES_LOCATION = os.path.join(dirname, "{location}")
 PLATFORMS = [
     # pairs of conda, pypi platform definitions
     ('osx-64', 'macosx-10.9-x86_64'),
-    ('linux-64', 'linux-x86_64'),
+    # FIXME: we are not actually building a manylinux wheel, because
+    # conda-forge is based on Centos 6 and not Centos 5. But Centos5 is going
+    # to die soon, and there are plans to create a manylinux2 Docker image
+    # based on Centos 6.
+    ('linux-64', 'manylinux1-x86_64'),
     ('win-32', 'win32'),
     ('win-64', 'win-amd64'),
 ]
@@ -78,9 +86,7 @@ def download(url, path, output=""):
     path = os.path.join(output, path)
     if not os.path.exists(path):
         print("downloading " + url)
-        downloaded = wget.download(url, output)
-        print("")
-        assert(downloaded == path)
+        request.urlretrieve(url, path)
     return path
 
 

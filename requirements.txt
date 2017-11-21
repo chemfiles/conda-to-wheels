@@ -1,2 +1,2 @@
 PyYaml
-wget
+wheel
