@@ -18,6 +18,7 @@ VERSION = "0.7.4"
 CHFL_PY_BUILD = "-py27_0"
 CHFL_LIB_BUILD = "-1"
 CHFL_LIB_BUILD_WIN = "-vc14_1"
+PRE_RELEASE = ".dev0"
 
 # Where to get the files from
 CHFL_PY_ROOT = "https://anaconda.org/conda-forge/chemfiles-python"
@@ -162,7 +163,7 @@ if __name__ == '__main__':
         if not (r.startswith("chemfiles") or r.startswith("python"))
     ]
     metadata = {
-        'version': metadata['package']['version'],
+        'version': metadata['package']['version'] + PRE_RELEASE,
         'description': metadata['about']['summary'],
         'url': metadata['about']['home'],
         'license': metadata['about']['license'],
